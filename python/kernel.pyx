@@ -8,6 +8,7 @@ from cudf._lib.column cimport Column
 from cudf._lib.cpp.column.column_view cimport column_view, mutable_column_view
 from libcpp.vector cimport vector
 
+
 cdef mutable_table_view make_mutable_table_view(columns) except*:
     """
     Helper function to create a cudf::mutable_table_view from
