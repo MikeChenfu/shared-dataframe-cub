@@ -24,15 +24,15 @@ def read_df(weather_file_path):
         weather_file_path, names=column_names, usecols=usecols, dtype=dtype_map, index=False
     )
     
-    # input data
     rainfall_df = weather_df[weather_df["type"] == "PRCP"]
-    # output data
     res = cudf.DataFrame({'res_val': [0.0]*len(rainfall_df.data), 'res_data': [0]*len(rainfall_df.data)})
     res.res_data = res.res_data.astype('int32')
-
+#     res = cudf.DataFrame()
+#     rainfall_df = cudf.DataFrame()
+    
     # Run the custom Kernel on Dataframe 
     rainfall_kernel = cudfkernel.CudfWrapper(
-        rainfall_df,  res
+        [*rainfall_df.index._columns, *rainfall_df._columns]
     )  # Wrap the dataframe you want to perform Kernel calls on
     
     #kenel function : res_val = val * mm_to_inches, res_data = data + 1
